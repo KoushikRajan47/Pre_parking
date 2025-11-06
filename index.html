@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost N' Found</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 1. FULL PAGE LOADER -->
+    <div id="full-page-loader" class="full-page-loader active">
+        <div class="loader-content">
+            <div class="loader-logo">Lost N' Found</div>
+            <div class="loader-dots">
+                <span></span><span></span><span></span>
+            </div>
+            <p class="dotted-font">Connecting to Lost N' Found network...</p>
+        </div>
+    </div>
+
+    <!-- 2. ANIMATED BACKGROUND -->
+    <canvas id="spaceCanvas"></canvas>
+
+    <!-- 3. MAIN PAGE CONTAINER -->
+    <div class="page-container">
+        <!-- The padded, full-page glass panel -->
+        <div class="glass-panel">
+
+            <!-- 3a. HEADER / NAVBAR -->
+            <nav id="navbar" class="navbar">
+                <div id="logo" class="logo dotted-font">Lost N' Found</div>
+                <div id="nav-links" class="nav-links">
+                    <!-- Links injected by main.js -->
+                </div>
+            </nav>
+
+            <!-- 3b. SCROLLABLE VIEW CONTAINER -->
+            <main id="view-container" class="view-container">
+
+                <!-- VIEW: AUTH (Login/Sign Up) -->
+                <div id="auth-view" class="view active">
+                    <div class="auth-container">
+                        <div class="auth-tabs">
+                            <button class="auth-tab-btn active" data-form="login-form">Login</button>
+                            <button class="auth-tab-btn" data-form="signup-form">Sign Up</button>
+                        </div>
+                        
+                        <!-- Login Form -->
+                        <form id="login-form" class="auth-form active-form">
+                            <h2>Welcome Back</h2>
+                            <div class="input-group">
+                                <input type="email" id="login-email" required>
+                                <label for="login-email">Email</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="password" id="login-password" required>
+                                <label for="login-password">Password</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><span>Log In</span></button>
+                        </form>
+                        
+                        <!-- Sign Up Form -->
+                        <form id="signup-form" class="auth-form">
+                            <h2>Create Account</h2>
+                            <div class="input-group">
+                                <input type="email" id="signup-email" required>
+                                <label for="signup-email">Email</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="password" id="signup-password" required>
+                                <label for="signup-password">Password</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><span>Sign Up</span></button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- VIEW: DASHBOARD -->
+                <div id="dashboard-view" class="view">
+                    <div class="header-title">Dashboard</div>
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span id="stat-total-items" class="stat-number">...</span>
+                            <span class="stat-label">Total Items</span>
+                        </div>
+                        <div class="stat-card">
+                            <span id="stat-lost" class="stat-number">...</span>
+                            <span class="stat-label">Items Lost</span>
+                        </div>
+                        <div class="stat-card">
+                            <span id="stat-found" class="stat-number">...</span>
+                            <span class="stat-label">Items Found</span>
+                        </div>
+                        <div class="stat-card">
+                            <span id="stat-users" class="stat-number">...</span>
+                            <span class="stat-label">Total Users</span>
+                        </div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <form id="search-form" class="search-form">
+                        <input type="text" id="search-input" class="modern-input" placeholder="Search for an item (e.g., 'blue wallet')">
+                        <button type="submit" class="btn btn-primary"><span>Search</span></button>
+                    </form>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button data-target="report-lost-view" class="btn btn-action">
+                            <span>Report a Lost Item</span>
+                        </button>
+                        <button data-target="report-found-view" class="btn btn-action">
+                            <span>Report a Found Item</span>
+                        </button>
+                    </div>
+
+                    <!-- Browse Links -->
+                    <div class="browse-links">
+                        <a data-target="browse-lost-view">Browse Recently Lost Items &rarr;</a>
+                        <a data-target="browse-found-view">Browse Recently Found Items &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- VIEW: BROWSE LOST -->
+                <div id="browse-lost-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 class="header-title">Recently Lost Items</h1>
+                    </div>
+                    <div id="lost-items-grid" class="item-grid">
+                        <!-- Items injected by main.js -->
+                    </div>
+                </div>
+                
+                <!-- VIEW: BROWSE FOUND -->
+                <div id="browse-found-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 class="header-title">Recently Found Items</h1>
+                    </div>
+                    <div id="found-items-grid" class="item-grid">
+                        <!-- Items injected by main.js -->
+                    </div>
+                </div>
+                
+                <!-- VIEW: SEARCH RESULTS -->
+                <div id="search-results-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 class="header-title">Search Results for "<span id="search-term"></span>"</h1>
+                    </div>
+                    <div id="search-results-grid" class="item-grid">
+                        <!-- Search results injected by main.js -->
+                    </div>
+                </div>
+
+                <!-- VIEW: REPORT LOST -->
+                <div id="report-lost-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 class="header-title">Report a Lost Item</h1>
+                    </div>
+                    <form id="report-lost-form" class="report-form">
+                        <div class="input-group">
+                            <input type="text" id="lost-item-name" class="modern-input" placeholder=" " required>
+                            <label for="lost-item-name">Item Name (e.g., 'Blue Wallet')</label>
+                        </div>
+                        <div class="input-group">
+                            <textarea id="lost-item-desc" class="modern-input" placeholder=" " rows="3" required></textarea>
+                            <label for="lost-item-desc">Description (color, brand, etc.)</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="lost-item-loc" class="modern-input" placeholder=" " required>
+                            <label for="lost-item-loc">Last Seen Location</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="url" id="lost-item-img" class="modern-input" placeholder=" ">
+                            <label for="lost-item-img">Image URL (Optional)</label>
+                            <button type="button" id="image-help-button" classs="btn-link">How do I get an image URL?</button>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><span>Submit Lost Report</span></button>
+                        <div id="report-lost-success" class="form-success-message">
+                            <!-- Success message injected by main.js -->
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- VIEW: REPORT FOUND -->
+                <div id="report-found-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 class="header-title">Report a Found Item</h1>
+                    </div>
+                    <form id="report-found-form" class="report-form">
+                        <div class="input-group">
+                            <input type="text" id="found-item-name" class="modern-input" placeholder=" " required>
+                            <label for="found-item-name">Item Name (e.g., 'Keys on a red lanyard')</label>
+                        </div>
+                        <div class="input-group">
+                            <textarea id="found-item-desc" class="modern-input" placeholder=" " rows="3" required></textarea>
+                            <label for="found-item-desc">Description (condition, brand, etc.)</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="found-item-loc" class="modern-input" placeholder=" " required>
+                            <label for="found-item-loc">Location Found</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="url" id="found-item-img" class="modern-input" placeholder=" ">
+                            <label for="found-item-img">Image URL (Optional)</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><span>Submit Found Report</span></button>
+                         <div id="report-found-success" class="form-success-message">
+                            <!-- Success message injected by main.js -->
+                        </div>
+                    </form>
+                </div>
+
+                <!-- VIEW: PROFILE -->
+                <div id="profile-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 class="header-title">My Profile</h1>
+                    </div>
+                    <form id="profile-form" class="report-form">
+                        <div class="input-group">
+                            <input type="text" id="profile-name" class="modern-input" placeholder=" " required>
+                            <label for="profile-name">Full Name</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="profile-email" class="modern-input" placeholder=" " readonly required>
+                            <label for="profile-email">Email (Cannot be changed)</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" id="profile-mobile" class="modern-input" placeholder=" " required>
+                            <label for="profile-mobile">Mobile Number</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="profile-city" class="modern-input" placeholder=" " required>
+                            <label for="profile-city">City</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><span>Save Changes</span></button>
+                    </form>
+                </div>
+
+                <!-- VIEW: ITEM DETAILS -->
+                <div id="item-details-view" class="view">
+                    <div class="header-title-flex">
+                        <button class="btn-back" data-target="dashboard-view">&larr; Back</button>
+                        <h1 id="item-detail-name" class="header-title">...</h1>
+                    </div>
+                    <div class="item-detail-container">
+                        <img id="item-detail-img" src="" alt="Item Image" class="item-detail-image" onerror="this.src='https://placehold.co/600x400/000/FFF?text=No+Image'">
+                        <div class="item-detail-info">
+                            <h2>Description</h2>
+                            <p id="item-detail-desc">...</p>
+                            <h2>Owner Details</h2>
+                            <p><strong>Name:</strong> <span id="item-detail-owner-name">...</span></p>
+                            <p><strong>City:</strong> <span id="item-detail-owner-city">...</span></p>
+                            <a id="item-detail-contact-btn" href="#" class="btn btn-primary btn-contact" target="_blank">
+                                <span>Contact Owner via Email</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </main> <!-- End View Container -->
+        </div> <!-- End Glass Panel -->
+    </div> <!-- End Page Container -->
+
+    <!-- MODAL: Welcome (Profile Setup) -->
+    <div id="welcome-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h1 class="dotted-font">Welcome to Lost N' Found</h1>
+            <p>Let's finish setting up your profile. This information will be used to auto-fill your reports.</p>
+            <form id="welcome-form" class="modal-form">
+                <div class="input-group">
+                    <input type="text" id="welcome-name" class="modern-input" placeholder=" " required>
+                    <label for="welcome-name">Full Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="welcome-mobile" class="modern-input" placeholder=" " required>
+                    <label for="welcome-mobile">Mobile Number</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="welcome-city" class="modern-input" placeholder=" " required>
+                    <label for="welcome-city">City (e.g., 'New York')</label>
+                </div>
+                <button type="submit" class="btn btn-primary"><span>Save & Continue</span></button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- MODAL: Image Upload Help -->
+    <div id="image-help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="image-help-close" class="modal-close-btn">&times;</button>
+            <h1>How to get an Image URL</h1>
+            <p>Since this is a prototype, we don't host images. Here's how to get a link:</p>
+            <ol>
+                <li>Go to a free image hosting site like <a href="https://imgur.com/upload" target="_blank">imgur.com</a>.</li>
+                <li>Upload your item's picture.</li>
+                <li>After uploading, right-click the image and select <strong>"Copy Image Address"</strong> or <strong>"Copy Image Link"</strong>.</li>
+                <li>Paste that link (it should end in .jpg, .png, etc.) into the form.</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <!-- 4. SCRIPT TAGS (Using v8 Legacy) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Your main application script -->
+    <script src="main.js"></script>
+
+</body>
+</html>
+
